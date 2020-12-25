@@ -1,0 +1,10 @@
+blue: {hmax: 150, hmin: 110}
+green: {hmax: 110, hmin: 0}
+image:
+  ROI_height: 480
+  ROI_wdith: 640
+  ROI_x: 0
+  ROI_y: 0
+  reg_x: [-0.0005377195025053106, 0.529543455885453]
+  reg_y: [-0.0005210207753966955, -0.08305414690004909]
+red: {hmax: 230, hmin: 150}

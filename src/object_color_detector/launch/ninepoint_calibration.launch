@@ -1,0 +1,9 @@
+<launch>
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+
+  <rosparam command="load" file="$(find object_color_detector)/config/calibration.yaml" />
+
+  <node name="ninepoint_calibration" pkg="object_color_detector" type="ninepoint_calibration" output="screen" />
+
+</launch>

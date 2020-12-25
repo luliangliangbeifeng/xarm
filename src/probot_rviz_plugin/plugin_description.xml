@@ -1,0 +1,11 @@
+<library path="lib/libprobot_rviz_plugin">
+
+  <class name="probot_rviz_plugin/Vision"
+         type="probot_rviz_plugin::VisionPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget for robot vision(test).
+    </description>
+  </class>
+
+</library>
