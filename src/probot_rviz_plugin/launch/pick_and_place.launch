@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+
+  <rosparam command="load" file="$(find probot_rviz_plugin)/config/calibration_config.yaml" />
+  <rosparam command="load" file="$(find probot_rviz_plugin)/config/roi_hsv_config.yaml" />
+
+  <arg name = "mode"   default = "sim" />
+
+  <param name = "mode" type="str" value = "$(arg mode)"/>
+
+</launch>

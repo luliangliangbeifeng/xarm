@@ -1,83 +1,13 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(probot_rviz_plugin)
+cmake_minimum_required(VERSION 3.0.2)
+project(xarm6_grasp)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+# add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  rviz
-  std_msgs
-  cv_bridge
-  geometry_msgs
-  xarm_msgs
-  message_generation
-  image_transport
-  roscpp
-  rospy
-  sensor_msgs
-)
-
-## This plugin includes Qt widgets, so we must include Qt like so:
-find_package(Qt5 COMPONENTS Core Widgets WebKitWidgets REQUIRED)
-
-find_package(OpenCV REQUIRED)
-#find_package(yaml-cpp REQUIRED)
-set(QT_LIBRARIES Qt5::Widgets Qt5::WebKitWidgets)
-
-## I prefer the Qt signals and slots to avoid defining "emit", "slots",
-## etc because they can conflict with boost signals, so define QT_NO_KEYWORDS here.
-add_definitions(-DQT_NO_KEYWORDS)
-
-## Here we specify which header files need to be run through "moc",
-## Qt's meta-object compiler.
-qt5_wrap_cpp(MOC_FILES
-  include/probot_rviz_plugin/panel/vision_panel.h
-
-  include/probot_rviz_plugin/widget/hand_eye_calibration_widget.h
-  include/probot_rviz_plugin/widget/image_process_config_widget.h
-  include/probot_rviz_plugin/widget/pick_and_place_widget.h
-
-  include/probot_rviz_plugin/interface/robot_vision_interface.h
-)
-
-## Here we specify the list of source files, including the output of
-## the previous command which is stored in ``${MOC_FILES}``.
-set(SOURCE_FILES
-  src/panel/vision_panel.cpp
-
-  src/widget/hand_eye_calibration_widget.cpp
-  src/widget/image_process_config_widget.cpp
-  src/widget/pick_and_place_widget.cpp
-
-  src/interface/robot_vision_interface.cpp
-  ${MOC_FILES}
-)
-
-## An rviz plugin is just a shared library, so here we declare the
-## library to be called ``${PROJECT_NAME}`` (which is
-## "rviz_plugin_tutorials", or whatever your version of this project
-## is called) and specify the list of source files we collected above
-## in ``${SOURCE_FILES}``.
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
-
-## Link the library with whatever Qt libraries have been defined by
-## the ``find_package(Qt4 ...)`` line above, and with whatever libraries
-## catkin has included.
-##
-## Although this puts "rviz_plugin_tutorials" (or whatever you have
-## called the project) as the name of the library, cmake knows it is a
-## library and names the actual file something like
-## "librviz_plugin_tutorials.so", or whatever is appropriate for your
-## particular OS.
-
-link_directories(/usr/local/lib)
-include_directories(/usr/local/include/yaml-cpp)
-
-target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} yaml-cpp)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -136,7 +66,7 @@ target_link_libraries(${PROJECT_NAME} yaml-cpp)
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -170,8 +100,8 @@ target_link_libraries(${PROJECT_NAME} yaml-cpp)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES probot_rviz_plugin
-   CATKIN_DEPENDS rviz std_msgs
+#  LIBRARIES xarm6_grasp
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -182,17 +112,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
-#  ${YAML_CPP_INCLUDE_DIRS}
+# include
+# ${catkin_INCLUDE_DIRS}
 )
-
-link_directories(${catkin_LIBRARY_DIRS})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/probot_rviz_plugin.cpp
+#   src/${PROJECT_NAME}/xarm6_grasp.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -203,7 +129,7 @@ link_directories(${catkin_LIBRARY_DIRS})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/probot_rviz_plugin_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/xarm6_grasp_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -223,32 +149,29 @@ link_directories(${catkin_LIBRARY_DIRS})
 #############
 ## Install ##
 #############
-install(TARGETS
-  ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(FILES 
-  plugin_description.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
+# catkin_install_python(PROGRAMS
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-## Mark executables and/or libraries for installation
-# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
+## Mark executables for installation
+## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
+# install(TARGETS ${PROJECT_NAME}_node
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
+
+## Mark libraries for installation
+## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
+# install(TARGETS ${PROJECT_NAME}
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
@@ -270,7 +193,7 @@ install(FILES
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_probot_rviz_plugin.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_xarm6_grasp.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

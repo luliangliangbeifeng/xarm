@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  tf
 )
 
 find_package(OpenCV REQUIRED)
@@ -163,10 +164,23 @@ add_executable(object_detector src/object_detector.cpp src/main_object_detector.
 target_link_libraries(object_detector ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_dependencies(object_detector ${PROJECT_NAME}_gencpp)
 
+add_executable(detect_and_pick src/detect_and_pick.cpp)
+target_link_libraries(detect_and_pick ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_dependencies(detect_and_pick ${PROJECT_NAME}_gencpp)
+
 add_executable(ninepoint_calibration src/ninepoint_calibration.cpp)
 target_link_libraries(ninepoint_calibration ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 target_link_libraries(ninepoint_calibration yaml-cpp)
 add_dependencies(ninepoint_calibration ${PROJECT_NAME}_gencpp)
+
+##add_executable(tf_broadcaster src/tf_broadcaster.cpp)
+
+add_executable(tf2_listener src/tf2_listener.cpp)
+
+#target_link_libraries(tf_broadcaster ${catkin_LIBRARIES})
+
+target_link_libraries(tf2_listener ${catkin_LIBRARIES})
+
 
 #############
 ## Install ##

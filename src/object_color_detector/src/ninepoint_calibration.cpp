@@ -17,11 +17,13 @@ using namespace cv;
 
 int flag = 1;
 image_transport::Publisher image_pub;
+vector<Point2f>points_camera;
+vector<Point2f> corners;
+sensor_msgs::ImagePtr msg1;
 
 void imagecallback(const sensor_msgs::ImageConstPtr &msg)
 {
 	flag = 0;
-	cout<< flag+1<< endl;
 
 
 	cv_bridge::CvImagePtr cv_ptr;
@@ -41,7 +43,6 @@ void imagecallback(const sensor_msgs::ImageConstPtr &msg)
     
     // Output modified video stream
 
-    image_pub.publish(cv_ptr->toImageMsg());
  
    
     Mat srcgray, dstImage, normImage, scaledImage;
@@ -54,7 +55,6 @@ void imagecallback(const sensor_msgs::ImageConstPtr &msg)
 	Mat kernel = getStructuringElement(MORPH_RECT, Size(15, 15), Point(-1, -1));
 	morphologyEx(srcbinary, srcbinary, MORPH_OPEN, kernel, Point(-1, -1));
 
-	vector<Point2f> corners;
 	Size patternSize = Size(8, 11);
 	findChessboardCorners(srcgray, patternSize,  corners);
 
@@ -74,6 +74,9 @@ void imagecallback(const sensor_msgs::ImageConstPtr &msg)
 		putText(image, temp, corners[i], FONT_HERSHEY_SCRIPT_SIMPLEX, 0.5, Scalar(0, 255, 0), 2, LINE_AA, false);
 		circle(image, corners[i], 2, Scalar(255, 0, 0), -1, 8, 0);
 	}
+//    	msg1 = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+//	image_pub.publish(msg1);
+    image_pub.publish(cv_ptr->toImageMsg());
 
 	cout << "第1个角点的像素坐标，：" << corners[0] << endl;
 	cout << "第4个角点的像素坐标，：" << corners[3] << endl;
@@ -89,11 +92,6 @@ void imagecallback(const sensor_msgs::ImageConstPtr &msg)
     cv::imshow("Image window", image);
     cv::waitKey(2000);
 	// 九点标定
-    double A, B, C, D, E, F;
-	Mat warpMat;
-	vector<Point2f>points_camera;
-	vector<Point2f>points_robot;
-
 	points_camera.push_back(corners[0]);
 	points_camera.push_back(corners[3]);
 	points_camera.push_back(corners[7]);
@@ -103,6 +101,9 @@ void imagecallback(const sensor_msgs::ImageConstPtr &msg)
 	points_camera.push_back(corners[80]);
 	points_camera.push_back(corners[83]);
 	points_camera.push_back(corners[87]);
+    double A, B, C, D, E, F;
+	Mat warpMat;
+	vector<Point2f>points_robot;
 
 	for (int i = 0; i < 9; i++) {
 		int index;

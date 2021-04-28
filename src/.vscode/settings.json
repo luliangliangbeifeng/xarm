@@ -1,0 +1,32 @@
+{
+    "ros.distro": "melodic",
+    "python.autoComplete.extraPaths": [
+        "/home/tianbot/xarm_ws/devel/lib/python2.7/dist-packages",
+        "/home/tianbot/xarm/devel/lib/python2.7/dist-packages",
+        "/home/tianbot/tianbot_mini_ws/devel/lib/python2.7/dist-packages",
+        "/home/tianbot/manipulation_ws/devel/lib/python2.7/dist-packages",
+        "/home/tianbot/turtlebot_ws/devel/lib/python2.7/dist-packages",
+        "/home/tianbot/study_ws/devel/lib/python2.7/dist-packages",
+        "/home/tianbot/tianbot_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages",
+        "/home/tianbot/catkin_ws/devel/lib/python2.7/dist-packages"
+    ],
+    "files.associations": {
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "cmath": "cpp",
+        "*.ipp": "cpp",
+        "*.tcc": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "random": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "memory": "cpp",
+        "streambuf": "cpp",
+        "regex": "cpp",
+        "tuple": "cpp",
+        "*.txx": "cpp"
+    }
+}

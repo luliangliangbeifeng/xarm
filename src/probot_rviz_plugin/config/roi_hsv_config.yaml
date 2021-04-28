@@ -1,0 +1,12 @@
+image:
+  ROI_height: 480
+  ROI_width: 640
+  ROI_x: 0
+  ROI_y: 0
+hsv:
+  hmin: 57
+  hmax: 360
+  smin: 70
+  smax: 255
+  vmin: 60
+  vmax: 250

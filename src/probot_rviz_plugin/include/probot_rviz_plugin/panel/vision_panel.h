@@ -6,16 +6,14 @@
 #include <rviz/panel.h>
 #endif
 
-#include <QPushButton>
-#include <QComboBox>
-#include <QLineEdit>
+#include "probot_rviz_plugin/widget/hand_eye_calibration_widget.h"
+#include "probot_rviz_plugin/widget/image_process_config_widget.h"
+#include "probot_rviz_plugin/widget/pick_and_place_widget.h"
 
 #include "probot_rviz_plugin/interface/robot_vision_interface.h"
 
 namespace probot_rviz_plugin
 {
-
-#define MAX_CALIBRATION_POINT_COUNT  (9)
 
 class VisionPanel: public rviz::Panel
 {
@@ -28,25 +26,26 @@ public:
   virtual void save(rviz::Config config) const;
 
 protected Q_SLOTS:
-  void onPatternRecognitionBtnClicked(bool checked = false);
-  void onImageCalibrationUpdateBtnClicked(bool checked = false);
+  void onGoToCaptureBtnClicked(bool checked);
 
 protected:
 
 private:
-  QPushButton* patternRecognitionBtn_;
-  QPushButton* imageCalibrationBtn_;
-
-  QLineEdit  *imageTopicEdit_;
-  QLineEdit  *robotPositionXEdit_[MAX_CALIBRATION_POINT_COUNT];
-  QLineEdit  *robotPositionYEdit_[MAX_CALIBRATION_POINT_COUNT];
-  QLineEdit  *pixelPositionXEdit_[MAX_CALIBRATION_POINT_COUNT];
-  QLineEdit  *pixelPositionYEdit_[MAX_CALIBRATION_POINT_COUNT];
-
-  QLineEdit  *calibrationResultXEdit_[3];
-  QLineEdit  *calibrationResultYEdit_[3];
-
   ros::NodeHandle nh_; // The ROS node handle.
+
+  QLineEdit  *rawImageTopicEdit_;
+  QLineEdit  *outImageTopicEdit_;
+
+  QLineEdit  *captureImagePostionXEdit_;
+  QLineEdit  *captureImagePostionYEdit_;
+  QLineEdit  *captureImagePostionZEdit_;
+
+  QPushButton* goToCaptureButton_;  
+
+  QTabWidget* tabWidget_;
+  HandEyeCalibrationWidget* handEyeCalibrationWidget_;
+  ImageProcessConfigWidget* imageProcessConfigWidget_;
+  PickAndPlaceWidget* pickAndPlaceWidgetWidget_;
 
   RobotVisionInterfacePtr robotVisionInterface_;
 };
